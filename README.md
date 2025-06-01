@@ -2,7 +2,7 @@
 
 Back-end Node.js + Express with MongoDB (via Docker), using Mongoose.
 
-## Run localy
+## Run locally
 
 - Docker with Mongo:
     - `docker run -d --name taskmanager-mongo -p 27018:27017 -e MONGO_INITDB_DATABASE=taskmanager mongo`
