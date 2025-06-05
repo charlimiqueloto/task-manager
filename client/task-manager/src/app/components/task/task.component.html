@@ -1,29 +1,42 @@
-<h2 class="p10">Task Manager</h2>
-<form (ngSubmit)="addTask()">
-    <div class="task-form">
-        <div class="mb-3">
-            <input class="form-control" [(ngModel)]="newTask.title" name="title" placeholder="Title" required />
+<div class="container">
+<div class="mt-5">
+    <h2>Task Manager</h2>
+    <form (ngSubmit)="addTask()">
+        <div>
+            <div class="mb-3">
+                <input class="form-control" [(ngModel)]="newTask.title" name="title" placeholder="Title" required />
+            </div>
+            <div class="mb-3">
+                <input class="form-control" [(ngModel)]="newTask.description" name="description" placeholder="description" required />
+            </div>
+            <div class="mb-3">
+                <select class="form-select" [(ngModel)]="newTask.status" name="status">
+                    <option value="pending">Pending</option>
+                    <option value="in-progress">In-progress</option>
+                    <option value="done">Done</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <input class="form-control" [(ngModel)]="newTask.dueDate" name="dueDate" type="date" required />
+            </div>
+            <button type="submit" class="mb-5 btn btn-primary">Add Task</button>
         </div>
-        <div class="mb-3">
-            <input class="form-control" [(ngModel)]="newTask.description" name="description" placeholder="description" required />
-        </div>
-        <div class="mb-3">
-            <select class="form-select" [(ngModel)]="newTask.status" name="status">
-                <option value="pending">Pending</option>
-                <option value="in-progress">In-progress</option>
-                <option value="done">Done</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <input class="form-control" [(ngModel)]="newTask.dueDate" name="dueDate" type="date" required />
-        </div>
-        <button type="submit" class="btn btn-primary">Add Task</button>
-    </div>
-</form>
+    </form>
+</div>
 
-<ul class="list-group list-group-flush">
-    <li *ngFor="let task of tasks" class="list-group-item">
-        {{task.title}} - {{task.status}}
-        <button (click)="deleteTask(task._id!)" class="btn btn-danger">Delete</button>
-    </li>
-</ul>
+    <ul class="list-group list-group-flush">
+        <div>
+            <li *ngFor="let task of tasks" class="status-delete list-group-item">
+               
+                    {{task.title}}
+                     <div class="flex">
+                    <span class="badge rounded-pill"
+                    [ngClass]=
+                    "task.status === 'done' ? 'text-bg-success' : task.status === 'pending' ? 'text-bg-warning' : 'text-bg-primary'"
+                    >{{task.status}}</span>
+                    <button (click)="deleteTask(task._id!)" class="btn btn-danger">Delete</button>
+                </div>
+            </li>
+        </div>
+    </ul>
+</div>
