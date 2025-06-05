@@ -17,18 +17,32 @@ export class TaskComponent implements OnInit {
     status: 'pending',
     dueDate: '',
   };
+  currentPage: number = 1;
+  totalPages: number = 1;
   
   constructor(private taskService: TaskService) { }
 
 
   ngOnInit(): void {
-    this.loadTasks();
+    this.loadTasksWithPager(this.totalPages);
   }
 
-  loadTasks() {
-    this.taskService.getTasks().subscribe((data) => {
-      this.tasks = data;
-    });
+  // loadTasks() {
+  //   this.taskService.getTasks().subscribe((data) => {
+  //     this.tasks = data;
+  //   });
+  // }
+
+  loadTasksWithPager(page: number): void {
+    console.log(page)
+    if (page < 1 || page > this.totalPages) return;
+
+    this.currentPage = page;
+    console.log(this.currentPage)
+    this.taskService.getAllTasksWithPager(this.currentPage).subscribe(response => {
+      this.tasks = response.data;
+      this.totalPages = response.totalPages;
+    })
   }
 
   addTask() {
@@ -39,7 +53,7 @@ export class TaskComponent implements OnInit {
         status: 'pending',
         dueDate: '',
       };
-      this.loadTasks();
+      this.loadTasksWithPager(this.totalPages);
     });
   }
 
@@ -47,5 +61,9 @@ export class TaskComponent implements OnInit {
     this.taskService.deleteTask(id).subscribe(() => {
       this.tasks = this.tasks.filter(task => task._id !== id);
     });
-  }  
+  }
+  
+  get pages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
 }

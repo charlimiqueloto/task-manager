@@ -22,6 +22,33 @@ const getTaskById = async (req, res) => {
     }
 };
 
+//Get tasks with pagination. Ex: /tasks?page=2&limit=5
+const getAllTasksWithPaging = async (req, res) => {
+    try {
+
+        console.log(req.query)
+        console.log(req.query.page)
+        const page = parseInt(req.query.page);
+        console.log('page', page)
+        const limit = parseInt(req.query.limit) || 5;
+        const skip = (page - 1) * limit;
+
+        const tasks = await Task.find().skip(skip).limit(limit);
+        const total = await Task.countDocuments();
+
+        res.json({
+            data: tasks,
+            total,
+            page,
+            totalPages: Math.ceil(total / limit),
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+
+
 //Create Task
 const createTask = async (req, res) => {
     try {
@@ -65,5 +92,6 @@ module.exports = {
     getTaskById,
     createTask,
     updateTaskById,
-    deleteTaskById
+    deleteTaskById,
+    getAllTasksWithPaging
 };

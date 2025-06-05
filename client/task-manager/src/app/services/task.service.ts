@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Task } from '../interfaces/task.interface'
 
@@ -11,9 +11,16 @@ export class TaskService {
 
   constructor(private http: HttpClient) { }
 
-  getTasks(): Observable<Task[]> {
-  return this.http.get<Task[]>(this.apiUrl)
+  getAllTasksWithPager(page: number = 1, limit: number = 5): Observable<any> {
+    console.log(page);
+    const params = new HttpParams().set('page', page).set('limit', limit);
+    console.log(params);
+    return this.http.get(`${this.apiUrl}/`, {params})
   }
+
+  // getTasks(): Observable<Task[]> {
+  // return this.http.get<Task[]>(this.apiUrl)
+  // }
 
   getTaskById(id: string): Observable<Task> {
     return this.http.get<Task>(`${this.apiUrl}/${id}`)

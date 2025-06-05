@@ -39,4 +39,18 @@
             </li>
         </div>
     </ul>
+    <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li (click)="loadTasksWithPager(currentPage - 1)" class="page-item" [class.disabled]="currentPage === 1">
+      <a class="page-link">Previous</a>
+    </li>
+    <!-- <li class="page-item"><a class="page-link" href="#">Page {{currentPage}} of {{totalPages}}</a></li> -->
+    <li *ngFor="let page of pages" class="page-item" [class.active]="page === currentPage">
+        <a class="page-link">{{page}}</a>
+    </li>
+    <li (click)="loadTasksWithPager(currentPage + 1)" class="page-item" [class.disabled]="currentPage === totalPages">
+      <a class="page-link" href="#">Next</a>
+    </li>
+  </ul>
+</nav>
 </div>
