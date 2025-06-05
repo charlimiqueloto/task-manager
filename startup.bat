@@ -10,3 +10,7 @@ node seed.js
 
 echo Starting the server with nodemon
 npm run dev
+
+echo Starting the client
+cd client/task-manager
+ng serve --o
